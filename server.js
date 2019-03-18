@@ -4,7 +4,6 @@ const bodyParser = require('body-parser')
 const app = express()
 const PORT = process.env.PORT | 8080
 const indexRoute = require('./routes/index')
-const usbRoute = require('./routes/usb')
 
 // app.set('view engine', 'ejs')
 // app.set('views', 'views')

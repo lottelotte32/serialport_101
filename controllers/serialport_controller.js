@@ -1,33 +1,43 @@
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
+const parser = new Readline()
 
-var port = new SerialPort('COM5', {
-  baudRate: 9600
+var DATA_FROM_DEVICE = null
+
+const port = new SerialPort(
+  'COM3',
+  { baudRate: 9600, autoOpen: false },
+  err => {
+    if (err) return console.log('Error: ', err.message)
+    console.log('New port')
+  }
+)
+port.pipe(parser)
+
+port.open(err => {
+  if (err) return console.log('Error opening port: ', err.message)
+})
+port.on('open', () => {
+  console.log('==OPEN PORT==')
 })
 
-const parser = new Readline()
-port.pipe(parser)
-console.log('==== start')
-
 // Read data that is available but keep the stream from entering //"flowing mode"
-port.on('readable', function () {
-  console.log('DATA: ', port.read().toString())
-});
-
-exports.readData = (req, res) => {
-  port.on('readable', function () {
-    console.log('DATA: ', port.read().toString())
-  })
-
-}
+port.on('readable', function() {
+  DATA_FROM_DEVICE = port.read().toString()
+  console.log('DATA: ', DATA_FROM_DEVICE)
+})
 
 exports.writeData = (req, res) => {
-  port.open(function () {
-    port.write(req.body.text, function (err) {
-      if (err) return sendData(500, err.message)
+  port.open(() => {
+    port.write(req.body.text, err => {
+      if (err) return err.message
 
       res.send('message written')
       console.log('==== message written')
     })
   })
+}
+
+exports.getData = (req, res) => {
+  res.json({ data: DATA_FROM_DEVICE })
 }
