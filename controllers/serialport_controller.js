@@ -35,14 +35,16 @@ port.on('readable', function() {
 })
 
 exports.writeData = (req, res) => {
+  // res.status(200).json({success: true})
   port.open(() => {
     port.write(req.body.text, err => {
       if (err) return err.message
 
-      res.send('message written')
+      res.status(200).json({success: true})
       console.log('==== message written')
     })
   })
+  console.log('COMMAND:', req.body.text)
 }
 
 exports.getData = (req, res) => {
