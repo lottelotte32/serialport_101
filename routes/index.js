@@ -7,4 +7,7 @@ router.post('/write', serialPortController.writeData)
 
 router.get('/getData', serialPortController.getData)
 
+router.get('/testDecode', serialPortController.testDecode)
+
+
 module.exports = router
