@@ -5,11 +5,19 @@ const app = express()
 const PORT = process.env.PORT | 8080
 const indexRoute = require('./routes/index')
 
-// app.set('view engine', 'ejs')
-// app.set('views', 'views')
-app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+  )
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  next()
+})
 
 app.use('/api', indexRoute)
 

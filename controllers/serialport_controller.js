@@ -2,13 +2,15 @@ const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 const parser = new Readline()
 
-var DATA_FROM_DEVICE = {
-  type: '01',
-  data: {
-    firstname: 'lotte',
-    lastname: 'chatechan'
+var DATA_FROM_DEVICE = [
+  {
+    type: '01',
+    data: {
+      firstname: 'lotte',
+      lastname: 'chatechan'
+    }
   }
-}
+]
 const port = new SerialPort(
   'COM3',
   { baudRate: 9600, autoOpen: false },
@@ -44,5 +46,5 @@ exports.writeData = (req, res) => {
 }
 
 exports.getData = (req, res) => {
-  res.status(200).json({ data: DATA_FROM_DEVICE })
+  res.status(200).json(DATA_FROM_DEVICE)
 }
