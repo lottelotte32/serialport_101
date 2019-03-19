@@ -11,7 +11,7 @@ app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-app.use('/', indexRoute)
+app.use('/api', indexRoute)
 
 app.listen(PORT, err => {
   if (err) throw err
