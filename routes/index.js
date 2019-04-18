@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const serialPortController = require('../controllers/serialport_controller')
+const serialPortController = require('../controllers/findserialport')
 
 router.post('/write', serialPortController.writeData)
 

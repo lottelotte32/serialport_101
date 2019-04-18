@@ -12,7 +12,8 @@
     "body-parser": "^1.18.3",
     "clear": "^0.1.0",
     "express": "^4.16.4",
-    "serialport": "^7.1.4"
+    "serialport": "^7.1.4",
+    "serialport-js": "^1.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

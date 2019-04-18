@@ -7,16 +7,12 @@ var THAI_ID_TEXTB64 = "";
 var DATA_FROM_DEVICE = "";
 // var clear = require('clear');
 
-
 const port = new SerialPort(
-  'COM3',
-  { baudRate: 128000, autoOpen: false },
-  err => {
-    if (err) return console.log('Error: ', err.message)
-    console.log('New port')
-  }
+  'COM10',
+  { baudRate: 128000, autoOpen: false }
 )
 port.pipe(parser)
+
 
 port.open(err => {
   if (err) return console.log('Error opening port: ', err.message)
@@ -29,7 +25,6 @@ port.on('readable', function () {
 
   DATA_FROM_DEVICE = port.read().toString()
   var rawBit = DATA_FROM_DEVICE.split(" ")
-
   THAI_ID_IMGB64 = THAI_ID_IMGB64.concat(rawBit[0]);
   console.log(THAI_ID_IMGB64)
 
@@ -41,10 +36,10 @@ port.on('readable', function () {
 
 exports.writeData = (req, res) => {
   port.open(() => {
-    port.write(req.body.text, err => {
-      if (err) return err.message
+    port.write(req.body.text, (err,result) => {
+      console.log('Err:'+err)
+      console.log('Result:'+result)    
       res.send('message written')
-      console.log(req.body.text)
     })
   })
 }
